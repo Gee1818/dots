@@ -5,6 +5,9 @@ return {
 	config = function()
 		vim.g.slime_target = "kitty"
 		vim.g.slime_default_config = { ["listen_on"] = "unix:/tmp/mykitty-", ["window_id"] = 1 }
+		vim.g.slime_python_ipython = 1
+		vim.g.slime_dispatch_ipython_pause = 100
+		vim.g.slime_cell_delimiter = "```"
 	end,
 	-- init = function()
 	-- 	vim.g.slime_target = "neovim"

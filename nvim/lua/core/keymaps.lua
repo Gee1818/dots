@@ -17,8 +17,9 @@ keymap.set("v", "K", ":m '<-2<CR>gv=gv") -- Move a block of text 2 lines up
 keymap.set({ "n", "v" }, "<leader>y", [["+y]], { desc = "Copy to the system register" })
 keymap.set("t", "jk", "<C-\\><C-N>")
 
--- NetRW
-keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "" })
+-- Diagnostic keymaps
+keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
+keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
 
 -- Disable arrow keys in normal mode
 keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
@@ -61,6 +62,14 @@ keymap.set(
 	{ desc = '[S]earch Recent Files ("." for repeat)' }
 )
 keymap.set("n", "<leader><leader>", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+
+keymap.set("n", "<leader>/", function()
+	-- You can pass additional configuration to telescope to change theme, layout, etc.
+	require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+		winblend = 10,
+		previewer = false,
+	}))
+end, { desc = "[/] Fuzzily search in current buffer" })
 
 --Harpoon
 --local harpoon = require("harpoon")
@@ -176,9 +185,15 @@ keymap.set("n", "<leader>de", function()
 end, { desc = "" })
 
 -- Quarto
-keymap.set({ "n", "i" }, "<leader>qy", "<esc>i```{python}<cr>```<esc>O", { desc = "[i]nsert code chunk" })
-keymap.set({ "n", "i" }, "<leader>qr", "<esc>i```{python}<cr>```<esc>O", { desc = "[i]nsert code chunk" })
+keymap.set({ "n", "i" }, "<m-y>", "<esc>i```{python}<cr>```<esc>O", { desc = "[i]nsert code chunk" })
+keymap.set({ "n", "i" }, "<m-r>", "<esc>i```{r}<cr>```<esc>O", { desc = "[i]nsert code chunk" })
 keymap.set("n", "<leader>qp", require("quarto").quartoPreview, { desc = "[Q]uarto [P]review" })
+
+-- Slime
+
+vim.keymap.set({ "n", "i" }, "<m-cr>", function()
+	vim.cmd([[ call slime#send_cell() ]])
+end, { desc = "send code cell to terminal" })
 
 -- Mini
 keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "[P]roject [V]iew" })

@@ -39,7 +39,10 @@ return {
 		vim.api.nvim_command("MasonToolsInstall")
 
 		local lspconfig = require("lspconfig")
-		local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+		-- local lsp_capabilities = require("cmp_nvim_lsp").default_capabilities()
+		local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+		lsp_capabilities =
+			vim.tbl_deep_extend("force", lsp_capabilities, require("cmp_nvim_lsp").default_capabilities())
 		local lsp_attach = function(client, bufnr)
 			-- Create your keybindings here...
 		end
@@ -69,6 +72,21 @@ return {
 					diagnostics = {
 						-- Get the language server to recognize the `vim` global
 						globals = { "vim" },
+					},
+					runtime = { version = "LuaJIT" },
+					workspace = {
+						checkThirdParty = false,
+						-- Tells lua_ls where to find all the Lua files that you have loaded
+						-- for your neovim configuration.
+						library = {
+							"${3rd}/luv/library",
+							unpack(vim.api.nvim_get_runtime_file("", true)),
+						},
+						-- If lua_ls is really slow on your computer, you can try this instead:
+						-- library = { vim.env.VIMRUNTIME },
+					},
+					completion = {
+						callSnippet = "Replace",
 					},
 				},
 			},
