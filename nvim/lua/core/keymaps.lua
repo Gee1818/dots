@@ -197,3 +197,9 @@ end, { desc = "send code cell to terminal" })
 
 -- Mini
 keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "[P]roject [V]iew" })
+
+-- gitsigns
+keymap.set("n", "<leader>gs", require("gitsigns").stage_hunk, { desc = "Stage hunk" })
+keymap.set("n", "<leader>gr", require("gitsigns").stage_hunk, { desc = "Reset hunk" })
+keymap.set("n", "<leader>gS", require("gitsigns").stage_buffer, { desc = "Stage buffer" })
+keymap.set("n", "<leader>gR", require("gitsigns").reset_buffer, { desc = "Reset buffer" })
